@@ -1,6 +1,6 @@
-# chemrxiv
+# ChemRxiv
 
-Python wrapper for the ChemRxiv Open Engage API. This library is intended to be used as a tool ...
+A Python wrapper for accessing the ChemRxiv preprint server Open Engage API. ChemRxiv is a preprint server launched in 2016. This library provides programmatic access to preprints. Note: Usage is subject to ChemRxiv's licensing terms and attribution requirements which may restrict commercial and non-commercial use of the retrieved data. The publications might have been retracted or are not yet peer-reviewed.
 
 ## Installation
 
