@@ -1,0 +1,26 @@
+[project]
+name = "chemrxiv"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "docformatter>=1.7.7",
+    "mypy>=1.15.0",
+    "pre-commit>=4.2.0",
+    "pyment>=0.3.3",
+    "pytest>=8.3.5",
+    "ruff>=0.11.10",
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.docformatter]
+style = "numpy"
+recursive = true
+wrap-summaries = 79
+wrap-descriptions = 79
