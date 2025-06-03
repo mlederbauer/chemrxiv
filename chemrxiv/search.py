@@ -46,8 +46,7 @@ class Search:
         self.term = term
         self.skip = skip
 
-        # ChemRxiv API limits to 50 results per page
-        self.limit = min(limit, 50) if limit is not None else 10
+        self.limit = limit
 
         self.sort = sort
         self.author = author

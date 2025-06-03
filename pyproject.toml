@@ -20,7 +20,18 @@ dev = [
 ]
 
 [tool.ruff]
+target-version = "py311"
 line-length = 79
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "RUF"]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 [tool.docformatter]
 style = "numpy"
