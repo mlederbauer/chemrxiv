@@ -225,18 +225,13 @@ class Result:
             logger.error(f"Error creating Result object: {e!s}")
             raise
 
-    def download_pdf(self, dirpath: str = "./", filename: str = "") -> str:
-        if not self.pdf_url:
-            raise ValueError("No PDF URL available for this result")
-
-        # Build a filename under dirpath
-        if not filename:
-            filename = f"{self.id}.pdf"
+    def _download_file(self, url: str, dirpath: str, filename: str) -> str:
+        """Private helper method to download a file from a URL."""
         out_path = os.path.join(dirpath, filename)
 
         # Create a Request with a browser-like User-Agent
         req = Request(
-            self.pdf_url,
+            url,
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -252,6 +247,16 @@ class Result:
 
         return out_path
 
+    def download_pdf(self, dirpath: str = "./", filename: str = "") -> str:
+        if not self.pdf_url:
+            raise ValueError("No PDF URL available for this result")
+
+        # Build a filename if not provided
+        if not filename:
+            filename = f"{self.id}.pdf"
+
+        return self._download_file(self.pdf_url, dirpath, filename)
+
     def download_si(self, dirpath: str = "./", filename: str = "") -> str:
         if not self._raw:
             raise ValueError("No raw data available for this result")
@@ -261,28 +266,21 @@ class Result:
                 "No supplementary items available for this result"
             )
 
+        last_path = ""
         for i, supp_item in enumerate(self._raw["suppItems"]):
             if supp_item.get("asset") and supp_item["asset"].get("original"):
                 pdf_url = supp_item["asset"]["original"].get("url")
-                req = Request(
-                    pdf_url,
-                    headers={
-                        "User-Agent": (
-                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                            "AppleWebKit/537.36 (KHTML, like Gecko) "
-                            "Chrome/115.0.0.0 Safari/537.36"
-                        ),
-                    },
+
+                # Build filename for this supplementary item
+                if not filename:
+                    current_filename = f"{self.id}_si_{i}.pdf"
+                elif i > 0:
+                    current_filename = filename.replace(".pdf", f"_{i}.pdf")
+                else:
+                    current_filename = filename
+
+                last_path = self._download_file(
+                    pdf_url, dirpath, current_filename
                 )
 
-                if not filename:
-                    filename = f"{self.id}_si_{i}.pdf"
-                elif i > 0:
-                    filename = filename.replace(".pdf", f"_{i}.pdf")
-
-                out_path = os.path.join(dirpath, filename)
-
-                with urlopen(req) as response, open(out_path, "wb") as f:
-                    f.write(response.read())
-
-        return out_path
+        return last_path
