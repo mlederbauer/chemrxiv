@@ -4,6 +4,7 @@ multirun/
 tmp/
 plots/
 results/
+*.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

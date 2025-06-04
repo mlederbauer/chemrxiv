@@ -8,24 +8,24 @@ class Author:
 
     name: str
     """The author's name."""
-    id: Optional[str]
-    """The author's ID."""
+    orcid_id: Optional[str]
+    """The author's ORCID ID."""
     affiliations: List[str]
     """The author's affiliations."""
 
     def __init__(
         self,
         name: str,
-        author_id: Optional[str] = None,
+        orcid_id: Optional[str] = None,
         affiliations: List[str] = None,
     ):
         """Constructs an `Author` with the specified metadata."""
         self.name = name
-        self.id = author_id
+        self.orcid_id = orcid_id
         self.affiliations = affiliations or []
 
     def __str__(self) -> str:
         return self.name
 
     def __repr__(self) -> str:
-        return f"Author(name={repr(self.name)}, id={repr(self.id)}, affiliations={repr(self.affiliations)})"
+        return f"Author(name={self.name!r}, orcid_id={self.id!r}, affiliations={self.affiliations!r})"

@@ -46,8 +46,7 @@ class Search:
         self.term = term
         self.skip = skip
 
-        # ChemRxiv API limits to 50 results per page
-        self.limit = min(limit, 50) if limit is not None else 10
+        self.limit = limit
 
         self.sort = sort
         self.author = author
@@ -62,8 +61,8 @@ class Search:
 
     def __repr__(self) -> str:
         return (
-            f"Search(term={repr(self.term)}, skip={repr(self.skip)}, "
-            f"limit={repr(self.limit)}, sort={repr(self.sort)})"
+            f"Search(term={self.term!r}, skip={self.skip!r}, "
+            f"limit={self.limit!r}, sort={self.sort!r})"
         )
 
     def url_args(self) -> Dict[str, str]:

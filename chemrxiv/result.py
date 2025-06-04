@@ -6,8 +6,10 @@ A Python wrapper for the ChemRxiv API.
 from __future__ import annotations
 
 import logging
+import os
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+from urllib.request import Request, urlopen
 
 from .author import Author
 from .category import Category
@@ -61,6 +63,7 @@ class Result:
         views_count: Optional[int] = None,
         read_count: Optional[int] = None,
         citation_count: Optional[int] = None,
+        keywords: Optional[List[str]] = None,
         _raw: Optional[Dict[str, Any]] = None,
     ):
         """Constructs a Result with the specified metadata."""
@@ -77,18 +80,39 @@ class Result:
         self.views_count = views_count
         self.read_count = read_count
         self.citation_count = citation_count
+        self.keywords = keywords or []
         self._raw = _raw
 
     def __str__(self) -> str:
         return self.title
 
     def __repr__(self) -> str:
-        return f"Result(id={repr(self.id)}, title={repr(self.title)})"
+        return f"Result(id={self.id!r}, title={self.title!r})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Result):
             return self.id == other.id
         return False
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the Result to a dictionary."""
+        return {
+            "id": self.id,
+            "title": self.title,
+            "authors": self.authors,
+            "abstract": self.abstract,
+            "doi": self.doi,
+            "published_date": self.published_date,
+            "updated_date": self.updated_date,
+            "categories": self.categories,
+            "license": self.license,
+            "pdf_url": self.pdf_url,
+            "views_count": self.views_count,
+            "read_count": self.read_count,
+            "citation_count": self.citation_count,
+            "keywords": self.keywords,
+            "raw": self._raw,
+        }
 
     @classmethod
     def from_api_response(cls, data: Dict[str, Any]) -> Result:
@@ -119,7 +143,7 @@ class Result:
                     authors.append(
                         Author(
                             name=name,
-                            author_id=author_data.get("id")
+                            orcid_id=author_data.get("id")
                             or author_data.get("orcid"),
                             affiliations=affiliations,
                         )
@@ -194,26 +218,36 @@ class Result:
                 views_count=data.get("viewsCount"),
                 read_count=data.get("readCount"),
                 citation_count=data.get("citationCount"),
+                keywords=data.get("keywords"),
                 _raw=data,
             )
         except Exception as e:
-            logger.error(f"Error creating Result object: {str(e)}")
+            logger.error(f"Error creating Result object: {e!s}")
             raise
 
     def download_pdf(self, dirpath: str = "./", filename: str = "") -> str:
-        """Downloads the PDF for this result to the specified directory.
-
-        Returns the path to the downloaded file.
-        """
         if not self.pdf_url:
             raise ValueError("No PDF URL available for this result")
 
-        import os
-        from urllib.request import urlretrieve
-
+        # Build a filename under dirpath
         if not filename:
             filename = f"{self.id}.pdf"
+        out_path = os.path.join(dirpath, filename)
 
-        path = os.path.join(dirpath, filename)
-        written_path, _ = urlretrieve(self.pdf_url, path)
-        return written_path
+        # Create a Request with a browser-like User-Agent
+        req = Request(
+            self.pdf_url,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/115.0.0.0 Safari/537.36"
+                ),
+            },
+        )
+
+        # Open + read + write to disk
+        with urlopen(req) as response, open(out_path, "wb") as f:
+            f.write(response.read())
+
+        return out_path
