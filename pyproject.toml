@@ -2,7 +2,6 @@
 name = "chemrxiv"
 version = "0.1.0"
 description = "A Python wrapper for the ChemRxiv API"
-description = "A Python wrapper for the ChemRxiv API"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -11,7 +10,6 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Chemistry",
 ]
@@ -34,7 +32,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py311"
 line-length = 79
 
 [tool.ruff.lint]
