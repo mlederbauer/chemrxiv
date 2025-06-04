@@ -251,3 +251,38 @@ class Result:
             f.write(response.read())
 
         return out_path
+
+    def download_si(self, dirpath: str = "./", filename: str = "") -> str:
+        # pdf is in results[i]._raw.suppItems[j].asset.original.url. there are several suppItems possible; if there are multiple, attach _0 etc.
+
+        if not self._raw:
+            raise ValueError("No raw data available for this result")
+
+        if not self._raw.get("suppItems"):
+            raise ValueError(
+                "No supplementary items available for this result"
+            )
+
+        for supp_item in self._raw["suppItems"]:
+            if supp_item.get("asset") and supp_item["asset"].get("original"):
+                pdf_url = supp_item["asset"]["original"].get("url")
+                req = Request(
+                    pdf_url,
+                    headers={
+                        "User-Agent": (
+                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                            "AppleWebKit/537.36 (KHTML, like Gecko) "
+                            "Chrome/115.0.0.0 Safari/537.36"
+                        ),
+                    },
+                )
+
+                if not filename:
+                    filename = f"{self.id}_si.pdf"
+
+                out_path = os.path.join(dirpath, filename)
+
+                with urlopen(req) as response, open(out_path, "wb") as f:
+                    f.write(response.read())
+
+        return out_path
