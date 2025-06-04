@@ -253,8 +253,6 @@ class Result:
         return out_path
 
     def download_si(self, dirpath: str = "./", filename: str = "") -> str:
-        # pdf is in results[i]._raw.suppItems[j].asset.original.url. there are several suppItems possible; if there are multiple, attach _0 etc.
-
         if not self._raw:
             raise ValueError("No raw data available for this result")
 
@@ -263,7 +261,7 @@ class Result:
                 "No supplementary items available for this result"
             )
 
-        for supp_item in self._raw["suppItems"]:
+        for i, supp_item in enumerate(self._raw["suppItems"]):
             if supp_item.get("asset") and supp_item["asset"].get("original"):
                 pdf_url = supp_item["asset"]["original"].get("url")
                 req = Request(
@@ -278,7 +276,9 @@ class Result:
                 )
 
                 if not filename:
-                    filename = f"{self.id}_si.pdf"
+                    filename = f"{self.id}_si_{i}.pdf"
+                elif i > 0:
+                    filename = filename.replace(".pdf", f"_{i}.pdf")
 
                 out_path = os.path.join(dirpath, filename)
 
