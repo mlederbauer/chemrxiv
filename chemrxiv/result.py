@@ -6,16 +6,14 @@ A Python wrapper for the ChemRxiv API.
 from __future__ import annotations
 
 import logging
+import os
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+from urllib.request import Request, urlopen
 
 from .author import Author
 from .category import Category
 from .license import License
-
-
-import os
-from urllib.request import Request, urlopen
 
 logger = logging.getLogger(__name__)
 
@@ -89,7 +87,7 @@ class Result:
         return self.title
 
     def __repr__(self) -> str:
-        return f"Result(id={repr(self.id)}, title={repr(self.title)})"
+        return f"Result(id={self.id!r}, title={self.title!r})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Result):
@@ -224,7 +222,7 @@ class Result:
                 _raw=data,
             )
         except Exception as e:
-            logger.error(f"Error creating Result object: {str(e)}")
+            logger.error(f"Error creating Result object: {e!s}")
             raise
 
     def download_pdf(self, dirpath: str = "./", filename: str = "") -> str:

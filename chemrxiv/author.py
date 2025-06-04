@@ -28,4 +28,4 @@ class Author:
         return self.name
 
     def __repr__(self) -> str:
-        return f"Author(name={repr(self.name)}, orcid_id={repr(self.id)}, affiliations={repr(self.affiliations)})"
+        return f"Author(name={self.name!r}, orcid_id={self.id!r}, affiliations={self.affiliations!r})"

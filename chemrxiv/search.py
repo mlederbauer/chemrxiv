@@ -61,8 +61,8 @@ class Search:
 
     def __repr__(self) -> str:
         return (
-            f"Search(term={repr(self.term)}, skip={repr(self.skip)}, "
-            f"limit={repr(self.limit)}, sort={repr(self.sort)})"
+            f"Search(term={self.term!r}, skip={self.skip!r}, "
+            f"limit={self.limit!r}, sort={self.sort!r})"
         )
 
     def url_args(self) -> Dict[str, str]:
