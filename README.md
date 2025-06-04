@@ -120,6 +120,9 @@ paper.download_pdf(filename="my-paper.pdf")
 
 # Download PDF to specific directory
 paper.download_pdf(dirpath="./downloads", filename="catalysis-paper.pdf")
+
+# Download supporting information PDF
+paper.download_si()
 ```
 
 ### Exploring Categories and Licenses
