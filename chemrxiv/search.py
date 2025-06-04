@@ -45,9 +45,7 @@ class Search:
         """Constructs a search with the specified criteria."""
         self.term = term
         self.skip = skip
-
         self.limit = limit
-
         self.sort = sort
         self.author = author
         self.search_date_from = search_date_from
