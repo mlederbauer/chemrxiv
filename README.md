@@ -1,28 +1,10 @@
 # ChemRxiv
 
-A Python wrapper for accessing the ChemRxiv preprint server Open Engage API. ChemRxiv is a preprint server launched in 2016. This library provides programmatic access to preprints. Note: Usage is subject to ChemRxiv's licensing terms and attribution requirements which may restrict commercial and non-commercial use of the retrieved data. The publications might have been retracted or are not yet peer-reviewed.
+A Python wrapper for accessing the ChemRxiv preprint server Open Engage API. ChemRxiv is the free preprint repository for chemistry launched in 2016, providing open access to early research outputs in chemistry and related fields. This package provides a convenient Python interface to search, download, and interact with ChemRxiv content. Note: Usage is subject to ChemRxiv's licensing terms and attribution requirements which may restrict commercial and non-commercial use of the retrieved data. The publications might have been retracted or are not yet peer-reviewed.
 
 ## Installation
 
 ```
-pip install chemrxiv
-```
-
-## Usage
-
-### Initialize Client
-
-### Search publications according to keywords
-
-###
-
-Python wrapper for the ChemRxiv API.
-
-ChemRxiv is the free preprint repository for chemistry, providing open access to early research outputs in chemistry and related fields. This package provides a convenient Python interface to search, download, and interact with ChemRxiv content.
-
-## Installation
-
-```bash
 pip install chemrxiv
 ```
 
@@ -73,7 +55,7 @@ filtered_search = chemrxiv.Search(
     limit=5,
     search_date_from="2023-01-01T00:00:00.000Z",
     search_date_to="2025-05-19T00:00:00.000Z",
-    search_license="CC-BY-4.0",
+    search_license="CC BY 4.0",
     category_ids=["605c72ef153207001f6470d4"]  # Specific chemistry category
 )
 
@@ -150,8 +132,6 @@ for license in licenses:
     if license.url:
         print(f"  URL: {license.url}")
 ```
-
-**Note on licenses:** There exist different licenses for open source publications determining the downstream use. Please refer to the licenses for details.
 
 ### Custom Client Configuration
 
