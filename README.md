@@ -1,6 +1,6 @@
 # ChemRxiv
 
-A Python wrapper for accessing the ChemRxiv preprint server Open Engage API. ChemRxiv is the free preprint repository for chemistry launched in 2016, providing open access to early research outputs in chemistry and related fields. This package provides a convenient Python interface to search, download, and interact with ChemRxiv content. Note: Usage is subject to ChemRxiv's licensing terms and attribution requirements which may restrict commercial and non-commercial use of the retrieved data. The publications might have been retracted or are not yet peer-reviewed.
+A Python wrapper for accessing the [ChemRxiv preprint server Open Engage API](https://chemrxiv.org/engage/chemrxiv/public-api/documentation). ChemRxiv is the free preprint repository for chemistry launched in 2016, providing open access to early research outputs in chemistry and related fields. This package provides a convenient Python interface to search, download, and interact with ChemRxiv content. Note: Usage is subject to ChemRxiv's licensing terms and attribution requirements which may restrict commercial and non-commercial use of the retrieved data. The publications might have been retracted or are not yet peer-reviewed.
 
 ## Installation
 
